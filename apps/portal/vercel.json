@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "public": true,
+    "cleanUrls": true,
+    "framework": "nextjs",
+    "installCommand": "npm install",
+    "buildCommand": "npm run build --workspace=portal",
+    "rewrites": [
+        {
+            "source": "/sub-apps-api/:path*",
+            "destination": "/api/:path*"
+        }
+    ]
+}
