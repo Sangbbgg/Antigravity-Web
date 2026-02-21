@@ -17,13 +17,15 @@ export default function AdminDashboard() {
     const [loading, setLoading] = useState(false);
     const [projects, setProjects] = useState<Project[]>([]);
 
-    const fetchProjects = useCallback(async () => {
+    const fetchProjects = useCallback(async (isMounted: boolean = true) => {
         const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
-        if (data) setProjects(data as Project[]);
+        if (isMounted && data) setProjects(data as Project[]);
     }, []);
 
     useEffect(() => {
-        fetchProjects();
+        let isMounted = true;
+        fetchProjects(isMounted);
+        return () => { isMounted = false; };
     }, [fetchProjects]);
 
     const handleGenerate = async () => {
