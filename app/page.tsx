@@ -1,6 +1,6 @@
 export default function Home() {
     return (
-        <div style={{ padding: '2rem', backgroundColor: 'white', height: '100vh', color: 'black' }}>
+        <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
             hello
         </div>
     );
