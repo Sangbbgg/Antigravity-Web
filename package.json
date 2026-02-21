@@ -1,0 +1,22 @@
+{
+    "name": "antigravity-portal-workspace",
+    "version": "1.0.0",
+    "private": true,
+    "description": "포털 및 서브 프로젝트 통합 관리를 위한 모노레포 루트",
+    "workspaces": [
+        "apps/*",
+        "packages/sub_apps/*"
+    ],
+    "scripts": {
+        "dev": "npm run dev --workspace=portal",
+        "build": "npm run build --workspaces --if-present",
+        "lint": "npm run lint --workspaces --if-present",
+        "clean": "rm -rf node_modules && rm -rf apps/*/node_modules && rm -rf packages/sub_apps/*/node_modules"
+    },
+    "devDependencies": {
+        "turbo": "^1.10.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}
