@@ -5,7 +5,7 @@
     "framework": "nextjs",
     "installCommand": "npm install",
     "buildCommand": "npm run build --workspace=@antigravity/portal",
-    "outputDirectory": ".next",
+    "outputDirectory": "apps/portal/.next",
     "rewrites": [
         {
             "source": "/sub-apps-api/:path*",
