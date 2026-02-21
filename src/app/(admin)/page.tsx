@@ -1,26 +1,30 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
+
+interface Project {
+    id: string;
+    slug: string;
+    prompt: string;
+    status: string;
+    created_at: string;
+}
 
 export default function AdminDashboard() {
     const [prompt, setPrompt] = useState('');
     const [slug, setSlug] = useState('');
     const [loading, setLoading] = useState(false);
-    const [projects, setProjects] = useState<any[]>([]);
+    const [projects, setProjects] = useState<Project[]>([]);
 
-    const fetchProjects = async () => {
+    const fetchProjects = useCallback(async () => {
         const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
-        if (data) setProjects(data);
-    };
+        if (data) setProjects(data as Project[]);
+    }, []);
 
     useEffect(() => {
-        const fetchProjects = async () => {
-            const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
-            if (data) setProjects(data);
-        };
         fetchProjects();
-    }, []);
+    }, [fetchProjects]);
 
     const handleGenerate = async () => {
         if (!slug || !prompt) {
@@ -37,9 +41,7 @@ export default function AdminDashboard() {
 
             if (res.ok) {
                 setPrompt(''); setSlug('');
-                // 갱신을 위해 handleGenerate 내에서도 fetchProjects가 필요하므로 다시 정의하거나 외부로 뺍니다.
-                const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
-                if (data) setProjects(data);
+                await fetchProjects();
             } else {
                 const error = await res.json();
                 alert(`생성 실패: ${error.error}`);
