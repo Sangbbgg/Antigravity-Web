@@ -54,9 +54,10 @@ export async function POST(req: Request) {
                 message: `feat(harness): auto-generate project ${slug}`,
                 content: contentEncoded,
             });
-        } catch (githubError: any) {
+        } catch (githubError) {
             console.error('GitHub Commit Error:', githubError);
-            return NextResponse.json({ success: false, error: `GitHub 커밋 실패: ${githubError.message}` }, { status: 500 });
+            const errorMessage = githubError instanceof Error ? githubError.message : String(githubError);
+            return NextResponse.json({ success: false, error: `GitHub 커밋 실패: ${errorMessage}` }, { status: 500 });
         }
 
         // 5. Supabase 업데이트 (Deployed)
@@ -67,8 +68,9 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ success: true, slug });
 
-    } catch (error: any) {
+    } catch (error) {
         console.error('Unexpected Error:', error);
-        return NextResponse.json({ success: false, error: `예상치 못한 에러: ${error.message}` }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return NextResponse.json({ success: false, error: `예상치 못한 에러: ${errorMessage}` }, { status: 500 });
     }
 }

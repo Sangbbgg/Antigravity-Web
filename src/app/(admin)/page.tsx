@@ -15,6 +15,10 @@ export default function AdminDashboard() {
     };
 
     useEffect(() => {
+        const fetchProjects = async () => {
+            const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
+            if (data) setProjects(data);
+        };
         fetchProjects();
     }, []);
 
@@ -33,12 +37,14 @@ export default function AdminDashboard() {
 
             if (res.ok) {
                 setPrompt(''); setSlug('');
-                fetchProjects();
+                // 갱신을 위해 handleGenerate 내에서도 fetchProjects가 필요하므로 다시 정의하거나 외부로 뺍니다.
+                const { data } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
+                if (data) setProjects(data);
             } else {
                 const error = await res.json();
                 alert(`생성 실패: ${error.error}`);
             }
-        } catch (err) {
+        } catch {
             alert('생성 중 오류 발생');
         }
         setLoading(false);
