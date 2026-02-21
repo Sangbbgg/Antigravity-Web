@@ -8,8 +8,8 @@
         "packages/sub_apps/*"
     ],
     "scripts": {
-        "dev": "npm run dev --workspace=portal",
-        "build": "npm run build --workspaces --if-present",
+        "dev": "npm run dev --workspace=@antigravity/portal",
+        "build": "npm run build --workspace=@antigravity/portal",
         "lint": "npm run lint --workspaces --if-present",
         "clean": "rm -rf node_modules && rm -rf apps/*/node_modules && rm -rf packages/sub_apps/*/node_modules"
     },
