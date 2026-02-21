@@ -5,3 +5,4 @@ echo .env >> .gitignore
 echo .next/ >> .gitignore
 echo build/ >> .gitignore
 echo dist/ >> .gitignore
+node_modules
